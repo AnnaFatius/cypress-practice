@@ -26,5 +26,4 @@ describe('Search buttons', () => {
         cy.get('.contacts_link').filter('[href="https://ithillel.ua"]');
         cy.get('.contacts_link').contains('support@ithillel.ua');
     })
-    
 })
