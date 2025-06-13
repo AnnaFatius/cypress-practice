@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+  "test:mainConfig": "npx cypress run --config-file cypress.config.js --spec \"cypress/e2e/1-getting-started/garage.cy.js,cypress/e2e/1-getting-started/expenses.cy.js\"",
+  "test:secondConfig": "npx cypress run --config-file cypress2.config.js --spec \"cypress/e2e/1-getting-started/garage2.cy.js,cypress/e2e/1-getting-started/expenses2.cy.js\""
   },
   "author": "",
   "license": "ISC",
