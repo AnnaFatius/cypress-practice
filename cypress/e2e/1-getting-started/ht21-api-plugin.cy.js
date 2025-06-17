@@ -8,7 +8,9 @@
 
 import 'cypress-plugin-api'
 
-describe('Plugin', () => {
+describe('Testing with Plugin', () => {
+
+    let sid
 
     before(() => {     
         cy.visit('https://qauto.forstudy.space/', {
@@ -21,15 +23,75 @@ describe('Plugin', () => {
         const user = {
           email: "anna.fatyus+testUser1@gmail.com",
           password: "Qwerty123tesT",
-        };         
-    });
-    it('Testing with plugin', () => {
+        };        
+        
+        cy.request('POST', '/api/auth/signin', user)
+        .then((response) => {
+          const token = response.headers["set-cookie"][0].split(';')[0];
+          expect(typeof token).to.eq('string');
+          sid = token;
+        }); 
 
-        cy.request('GET', '/api/cars/brands')
+    });
+    after(() => {
+        const carId = 368540;
+        if (carId) {
+            cy.request({
+                method: 'DELETE',
+                url: `/api/expenses/${carId}`,
+                headers: {
+                    'Cookie': sid
+                },
+            })
+                .then((response) => {
+                    expect(response.status).to.be.eq(200);
+                })
+        }
+    });
+
+    it('GET - cars brands', () => {
+
+        cy.api('GET', '/api/cars/brands')
             .then((response) => {
             const body = response.body.data;
             expect(response.status).to.be.eq(200);
             expect(body[0].title).to.be.eq('Audi');
+        })
+    });
+
+    it('GET - cars models', () => {
+
+        cy.api('GET', '/api/cars/models')
+            .then((response) => {
+            const body = response.body.data;
+            expect(response.status).to.be.eq(200);
+            expect(body[7].title).to.be.eq('X5');
+        })
+    });
+
+    it('POST - add new car', () => {
+        const newCar = {
+            "carBrandId": 1,
+            "carModelId": 2,
+            "mileage": 111,
+
+        }
+
+        cy.api({
+            method: 'POST', 
+            url: '/api/cars',
+            body: newCar,
+            headers: {
+                'Cookie': sid
+            } 
+        })
+
+            .then((response) => {
+            const body = response.body.data;
+            expect(response.status).to.be.eq(201);
+            expect(body.brand).to.be.eq('Audi');
+            expect(body.model).to.be.eq('R8');
+            expect(body.mileage).to.be.eq(newCar.mileage);
         })
     });
 });
