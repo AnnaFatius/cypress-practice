@@ -1,13 +1,13 @@
-import GaragePage from "../../pom/pages/GaragePage";
-import HomePage from "../../pom/pages/HomePage";
-import SignInForm from "../../pom/forms/SignInForm";
+import GaragePage from "../../../pom/pages/GaragePage";
+import HomePage from "../../../pom/pages/HomePage";
+import SignInForm from "../../../pom/forms/SignInForm";
 
 describe('Adding new cars', () =>{
 
     beforeEach(()=>{
         HomePage.visit();
         HomePage.openSignInForm();
-        SignInForm.loginWithCredentials(Cypress.env('TEST_USER_EMAIL'), Cypress.env('TEST_USER_PASSWORD'));
+        SignInForm.loginWithCredentials(Cypress.env('TEST_USER_EMAIL2'), Cypress.env('TEST_USER_PASSWORD2'));
         GaragePage.pageHeader.should('be.visible');
         GaragePage.visit();
      });
@@ -28,7 +28,7 @@ describe('Adding new cars', () =>{
     });
 
     it('Add [Porsche Panamera] car', () => {
-        GaragePage.addNewCar('Porsche', 'Panamera', '100987');
+        GaragePage.addNewCar('Porsche', 'Panamera', '10987');
         GaragePage.verifyLastAddedCar('Porsche Panamera');
     });
     

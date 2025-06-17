@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
-import HomePage from "../../pom/pages/HomePage";
-import SignInForm from "../../pom/forms/SignInForm";
+import HomePage from "../../../pom/pages/HomePage";
+import SignInForm from "../../../pom/forms/SignInForm";
 
 describe('Sign in with POM', () => {
     
@@ -8,8 +8,8 @@ describe('Sign in with POM', () => {
        HomePage.visit();
        HomePage.openSignInForm();
     });
-    it('Successful sign in', () => {
-        SignInForm.loginWithCredentials('anna.fatyus+testUser1@gmail.com' , 'Qwerty123tesT');
+    it.only('Successful sign in', () => {
+        cy.login('anna.fatyus+testUser1@gmail.com' , 'Qwerty123tesT');
         cy.get('h1').should('have.text', 'Garage');
     });
 
